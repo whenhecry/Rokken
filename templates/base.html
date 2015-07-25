@@ -4,6 +4,13 @@
         {% block head %}
         <title>{% block title %}{{ SITENAME }}{% endblock title %}</title>
         <meta charset="utf-8" />
+        <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <!-- self-defined CSS -->
+        <link rel="stylesheet" href="{{ SITEURL }}/theme/css/style.css" />
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
         {% if FEED_ALL_ATOM %}
         <link href="{{ FEED_DOMAIN }}/{{ FEED_ALL_ATOM }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Full Atom Feed" />
         {% endif %}
@@ -31,33 +38,31 @@
         {% endblock head %}
 </head>
 
-<body id="index" class="home">
-        <header id="banner" class="body">
-                <h1><a href="{{ SITEURL }}/">{{ SITENAME }} <strong>{{ SITESUBTITLE }}</strong></a></h1>
-        </header><!-- /#banner -->
-        <nav id="menu"><ul>
-        {% for title, link in MENUITEMS %}
-            <li><a href="{{ link }}">{{ title }}</a></li>
-        {% endfor %}
-        {% if DISPLAY_PAGES_ON_MENU %}
-          {% for p in PAGES %}
-            <li{% if p == page %} class="active"{% endif %}><a href="{{ SITEURL }}/{{ p.url }}">{{ p.title }}</a></li>
-          {% endfor %}
-        {% else %}
-          {% if DISPLAY_CATEGORIES_ON_MENU %}
-            {% for cat, null in categories %}
-              <li{% if cat == category %} class="active"{% endif %}><a href="{{ SITEURL }}/{{ cat.url }}">{{ cat }}</a></li>
-            {% endfor %}
-          {% endif %}
-        {% endif %}
-        </ul></nav><!-- /#menu -->
-        {% block content %}
-        {% endblock %}
-        <footer id="contentinfo" class="body">
+<div class="container">
+    <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <body id="index" class="home">
+            <header id="banner" class="body">
+                <div class="row">
+                    <h1><a href="{{ SITEURL }}/">{{ SITENAME }} <strong>{{ SITESUBTITLE }}</strong></a></h1>
+                    <div class="col-md-8"></div>
+                    <div class="col-md-4">
+                        <ul class="nav nav-pills">
+                            {% for cat, null in categories %}
+                            <li role="presentation" {% if cat == category %}class="active"{% endif %}><a href="{{ SITEURL }}/{{ cat.url }}">{{ cat }}</a></li>
+                            {% endfor %}
+                        </ul></div></div>
+                <div class="row"><hr></div>             
+            </header><!-- /#banner -->
+            {% block content %}
+            {% endblock %}
+            <footer id="contentinfo" class="body">
                 <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
-                which takes great advantage of <a href="http://python.org">Python</a>.
+                    Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                    which takes great advantage of <a href="http://python.org">Python</a>.
                 </address><!-- /#about -->
-        </footer><!-- /#contentinfo -->
-</body>
+            </footer><!-- /#contentinfo -->
+        </body></div>
+    <div class="col-md-2"></div></div></div>
 </html>

@@ -5,22 +5,19 @@
 <h2>All articles</h2>
 {% endblock %}
 
-<ol id="post-list">
+<!--<ol id="post-list">-->
 {% for article in articles_page.object_list %}
-        <li><article class="hentry">
-                <header> <h2 class="entry-title"><a href="{{ SITEURL }}/{{ article.url }}" rel="bookmark" title="Permalink to {{ article.title|striptags }}">{{ article.title }}</a></h2> </header>
-                <footer class="post-info">
-                    <abbr class="published" title="{{ article.date.isoformat() }}"> {{ article.locale_date }} </abbr>
-                    <address class="vcard author">By
-                    {% for author in article.authors %}
-                        <a class="url fn" href="{{ SITEURL }}/{{ author.url }}">{{ author }}</a>
-                    {% endfor %}
-                    </address>
-                </footer><!-- /.post-info -->
-                <div class="entry-content"> {{ article.summary }} </div><!-- /.entry-content -->
-        </article></li>
+        <div class="row">
+            <div class="col-md-1">
+                    <div class="row myDate">
+                    <h3><strong>{{article.locale_date.split('/')[-1]}}</strong></h3></div></div>
+            <div class="col-md-11 myVerticalRule">
+                <article class="hentry">
+                    <header><h3 class="entry-title"><a href="{{ SITEURL }}/{{ article.url }}" rel="bookmark" title="Permalink to {{ article.title|striptags }}"><strong>{{ article.title }}</strong></a></h3></header>
+                    <div class="entry-content"> {{ article.summary }} </div><!-- /.entry-content --></article></div></div>
+        <div class="row"><hr></div>  
 {% endfor %}
-</ol><!-- /#posts-list -->
+<!--</ol>--><!-- /#posts-list -->
 {% include 'pagination.html' %}
 </section><!-- /#content -->
 {% endblock content %}
