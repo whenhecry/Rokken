@@ -3,6 +3,12 @@
 	text-align: center;
 	color: #456067;
 }
-.myVerticalRule{
+.myLeftBorder{
     border-left: medium solid #DDDDDD;
+}
+.testBorder{
+	border-left: thin solid #000000;
+	border-right: thin solid #000000;
+	border-top: thin solid #000000;
+	border-bottom: thin solid #000000;
 }

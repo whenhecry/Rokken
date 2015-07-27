@@ -1,23 +1,59 @@
 {% extends "base.html" %}
 {% block content %}
 <section id="content">
-{% block content_title %}
-<h2>All articles</h2>
-{% endblock %}
 
 <!--<ol id="post-list">-->
-{% for article in articles_page.object_list %}
+{% for articlesByMonth in articles_page.object_list | listOfMonth %}
+    <div class="row uniqueDays {% if loop.index == 1 %}sticky testBorder{% endif %}" id="uniqueDay{{loop.index}}"><h3>{{articlesByMonth[0].locale_date.split('/')[1]}}</h3></div>
+    <div class="row"><hr></div>
+    {% for article in articlesByMonth %}
         <div class="row">
             <div class="col-md-1">
-                    <div class="row myDate">
+                <div class="row myDate">
                     <h3><strong>{{article.locale_date.split('/')[-1]}}</strong></h3></div></div>
-            <div class="col-md-11 myVerticalRule">
+            <div class="col-md-11 myLeftBorder">
                 <article class="hentry">
                     <header><h3 class="entry-title"><a href="{{ SITEURL }}/{{ article.url }}" rel="bookmark" title="Permalink to {{ article.title|striptags }}"><strong>{{ article.title }}</strong></a></h3></header>
                     <div class="entry-content"> {{ article.summary }} </div><!-- /.entry-content --></article></div></div>
         <div class="row"><hr></div>  
+    {% endfor %}
 {% endfor %}
 <!--</ol>--><!-- /#posts-list -->
 {% include 'pagination.html' %}
 </section><!-- /#content -->
+
+
+<script>
+$(document).ready(function(){  // wait for document to be ready
+    var stickyTop = $('.sticky').offset().top;
+    var stickyWidth = $('.sticky').width();
+//~     var 
+    $(window).scroll(function(){  // scroll event
+        // for sticking
+        var windowTop = $(window).scrollTop();
+        if (stickyTop < windowTop){
+            $('.sticky').css({'position': 'fixed', 'top': 0, 'width': stickyWidth, 'z-index': 1});
+        }else{
+            $('.sticky').css('position', 'static');
+        }
+
+        // dynamically change content while scrolling
+        var pos=$('#uniqueDay1').offset();
+        console.log(pos.top);
+        $('.uniqueDays').each(function(){
+            if(pos.top >= $(this).offset().top && pos.top <= $(this).next().offset().top){
+                console.log('at %s, [%f, %f]', this.id, $(this).offset().top, $(this).next().offset().top);
+                $('#uniqueDay1').html($(this).html());  // change content
+                return;  // break the loop
+            }
+//~ else{
+//~                 console.log('at' + ' ' + this.prev().id);
+//~                 return
+//~             }
+        }); 
+
+    });
+});
+</script>
+
 {% endblock content %}

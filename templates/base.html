@@ -8,9 +8,11 @@
         <!-- self-defined CSS -->
         <link rel="stylesheet" href="{{ SITEURL }}/theme/css/style.css" />
         <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <!-- jQuery from Google -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <!-- Latest compiled and minified JavaScript -->
-        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+        <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>-->
         {% if FEED_ALL_ATOM %}
         <link href="{{ FEED_DOMAIN }}/{{ FEED_ALL_ATOM }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Full Atom Feed" />
         {% endif %}
@@ -45,15 +47,13 @@
         <body id="index" class="home">
             <header id="banner" class="body">
                 <div class="row">
-                    <h1><a href="{{ SITEURL }}/">{{ SITENAME }} <strong>{{ SITESUBTITLE }}</strong></a></h1>
-                    <div class="col-md-8"></div>
-                    <div class="col-md-4">
-                        <ul class="nav nav-pills">
-                            {% for cat, null in categories %}
+                    <h1><a href="{{ SITEURL }}/">{{ SITENAME }} <strong>{{ SITESUBTITLE }}</strong></a></h1></div>
+                <div class="row">
+                    <ul class="nav nav-pills">
+                        {% for cat, null in categories %}
                             <li role="presentation" {% if cat == category %}class="active"{% endif %}><a href="{{ SITEURL }}/{{ cat.url }}">{{ cat }}</a></li>
-                            {% endfor %}
-                        </ul></div></div>
-                <div class="row"><hr></div>             
+                        {% endfor %}
+                    </ul></div>
             </header><!-- /#banner -->
             {% block content %}
             {% endblock %}
