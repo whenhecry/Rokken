@@ -12,3 +12,16 @@
 	border-top: thin solid #000000;
 	border-bottom: thin solid #000000;
 }
+.monthMargin{
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-left: 5px;
+}
+.noMargin{
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+.uniqueDays{
+	background-color: #7E7C7E;
+	color: #FFFFFF;
+}

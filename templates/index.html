@@ -2,58 +2,28 @@
 {% block content %}
 <section id="content">
 
-<!--<ol id="post-list">-->
+<!-- post-list -->
 {% for articlesByMonth in articles_page.object_list | listOfMonth %}
-    <div class="row uniqueDays {% if loop.index == 1 %}sticky testBorder{% endif %}" id="uniqueDay{{loop.index}}"><h3>{{articlesByMonth[0].locale_date.split('/')[1]}}</h3></div>
-    <div class="row"><hr></div>
-    {% for article in articlesByMonth %}
+    {% set outerLoop = loop %}
+    {% set date = articlesByMonth[0].locale_date.split('/')%}<!-- date of articles of the same month -->
+    {% set year = date[0] %}
+    {% set month = date[1] %}
+    <div class="row uniqueDays {% if outerLoop.index == 1 %}sticky{% endif %}" id="uniqueDay{{outerLoop.index}}"><h3 class="monthMargin">{{year}}/{{month}}</h3></div>
+    {% for article in articlesByMonth%}
+        {% set date = article.locale_date.split('/') %}<!-- date of one article -->
+        {% set day = date[2] %}
         <div class="row">
             <div class="col-md-1">
                 <div class="row myDate">
-                    <h3><strong>{{article.locale_date.split('/')[-1]}}</strong></h3></div></div>
+                    <h3><strong>{{day}}</strong></h3></div></div>
             <div class="col-md-11 myLeftBorder">
                 <article class="hentry">
                     <header><h3 class="entry-title"><a href="{{ SITEURL }}/{{ article.url }}" rel="bookmark" title="Permalink to {{ article.title|striptags }}"><strong>{{ article.title }}</strong></a></h3></header>
                     <div class="entry-content"> {{ article.summary }} </div><!-- /.entry-content --></article></div></div>
-        <div class="row"><hr></div>  
+        <div class="row"><hr class="noMargin"></div>  
     {% endfor %}
 {% endfor %}
-<!--</ol>--><!-- /#posts-list -->
-{% include 'pagination.html' %}
-</section><!-- /#content -->
+<!-- post-list -->
 
-
-<script>
-$(document).ready(function(){  // wait for document to be ready
-    var stickyTop = $('.sticky').offset().top;
-    var stickyWidth = $('.sticky').width();
-//~     var 
-    $(window).scroll(function(){  // scroll event
-        // for sticking
-        var windowTop = $(window).scrollTop();
-        if (stickyTop < windowTop){
-            $('.sticky').css({'position': 'fixed', 'top': 0, 'width': stickyWidth, 'z-index': 1});
-        }else{
-            $('.sticky').css('position', 'static');
-        }
-
-        // dynamically change content while scrolling
-        var pos=$('#uniqueDay1').offset();
-        console.log(pos.top);
-        $('.uniqueDays').each(function(){
-            if(pos.top >= $(this).offset().top && pos.top <= $(this).next().offset().top){
-                console.log('at %s, [%f, %f]', this.id, $(this).offset().top, $(this).next().offset().top);
-                $('#uniqueDay1').html($(this).html());  // change content
-                return;  // break the loop
-            }
-//~ else{
-//~                 console.log('at' + ' ' + this.prev().id);
-//~                 return
-//~             }
-        }); 
-
-    });
-});
-</script>
-
+{% include 'pagination.html' %}</section>
 {% endblock content %}
