@@ -25,12 +25,21 @@ $(document).ready(function(){  // wait for document to be ready
         dyChange(dyClass, idArray, topArray, contentArray);
     });
 
-    $("#hide").click(function(){
-        $("p").hide();
+    // if article is clicked
+    $('article').click(function(){
+        // get target id
+        targetContentId = $(this).find('.entry-content').attr('id')
+        targetSummaryId = $(this).find('.entry-summary').attr('id')
+        // hide all content/show all summary but remain target unchanged --> toggle target summary/content
+        // toggle: hide <--> show
+        $('.entry-content').not('#' + targetContentId).hide();
+        $('.entry-summary').not('#' + targetSummaryId).show();
+        $(this).children('.entry-summary').toggle();
+        $(this).children('.entry-content').toggle();
+        // scroll to article top
+        scrollToTop(this, 'sticky');
     });
-    $("#show").click(function(){
-        $("p").show();
-    });
+
 });
 
 // to stick
@@ -55,4 +64,13 @@ function dyChange(className, idArray, topArray, contentArray){
         }
     }
     return;
+}
+
+// to scroll to top of given element minus offset
+function scrollToTop(element, offsetClass){
+    var topOfElement = $(element).parent().parent().offset().top;
+    var offset = $('.' + offsetClass).height();
+    $('html, body').animate({
+        scrollTop: topOfElement - offset  // take height of floating date bar into consideration
+        }, 'slow');
 }

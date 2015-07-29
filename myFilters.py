@@ -15,3 +15,13 @@ def listOfMonth(articlesList):
         year = tempYear
         month = tempMonth
     return myList
+
+# input is 2-dim list
+# return element count before gifen index of dim 1
+# eg. [[2,3], [5,4,7], [1], ...] will return 2 when index is 1, or 5 when 2
+def sumByIndex(myList, index):
+    # ignore input control
+    sum = 0
+    for subListIndex in range(index):
+        sum += len(myList[subListIndex])
+    return sum

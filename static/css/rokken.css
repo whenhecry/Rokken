@@ -25,3 +25,7 @@
 	background-color: #7E7C7E;
 	color: #FFFFFF;
 }
+/*to hide content by default*/
+.entry-content{
+	display: none;
+}

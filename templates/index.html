@@ -5,21 +5,24 @@
 <!-- post-list -->
 {% for articlesByMonth in articles_page.object_list | listOfMonth %}
     {% set outerLoop = loop %}
-    {% set date = articlesByMonth[0].locale_date.split('/')%}<!-- date of articles of the same month -->
+    {% set articleCntBase = articles_page.object_list | listOfMonth | sumByIndex(outerLoop.index - 1) %}
+    {% set date = articlesByMonth[0].locale_date.split('/')%}  <!-- date of articles of the same month -->
     {% set year = date[0] %}
     {% set month = date[1] %}
     <div class="row uniqueDays {% if outerLoop.index == 1 %}sticky{% endif %}" id="uniqueDay{{outerLoop.index}}"><h3 class="monthMargin">{{year}}/{{month}}</h3></div>
     {% for article in articlesByMonth%}
-        {% set date = article.locale_date.split('/') %}<!-- date of one article -->
+        {% set articleCnt = articleCntBase + loop.index %}  <!-- Jinja loop index start from 1 -->
+        {% set date = article.locale_date.split('/') %}  <!-- date of one article -->
         {% set day = date[2] %}
         <div class="row">
             <div class="col-md-1">
                 <div class="row myDate">
                     <h3><strong>{{day}}</strong></h3></div></div>
             <div class="col-md-11 myLeftBorder">
-                <article class="hentry">
-                    <header><h3 class="entry-title"><a href="{{ SITEURL }}/{{ article.url }}" rel="bookmark" title="Permalink to {{ article.title|striptags }}"><strong>{{ article.title }}</strong></a></h3></header>
-                    <div class="entry-content"> {{ article.summary }} </div><!-- /.entry-content --></article></div></div>
+                <article id="articleId{{articleCnt}}">
+                    <div class="entry-title" id="entry-title{{articleCnt}}"><h3><strong>{{ article.title }}</strong></h3></header></div>
+                    <div class="entry-summary" id="entry-summary{{articleCnt}}"> {{ article.summary }} </div>
+                    <div class="entry-content" id="entry-content{{articleCnt}}">{{article.content}}</div></article></div></div>
         <div class="row"><hr class="noMargin"></div>  
     {% endfor %}
 {% endfor %}

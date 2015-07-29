@@ -23,6 +23,15 @@ class MyTest(unittest.TestCase):
         r = listOfMonth([a1, a2, a3, a4, a5])
         self.failUnlessEqual(r, [[a1, a2, a3], [a4, a5]])
 
+    def test_sumByIndex(self):
+        testList = [[2,3], [5,4,7], [1]]
+        r0 = sumByIndex(testList, 0)
+        self.failUnlessEqual(r0, 0)
+        r1 = sumByIndex(testList, 1)
+        self.failUnlessEqual(r1, 2)
+        r2 = sumByIndex(testList, 3)
+        self.failUnlessEqual(r2, 6)
+
 
 if __name__== '__main__':
     unittest.main()
