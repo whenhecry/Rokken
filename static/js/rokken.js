@@ -6,36 +6,35 @@ $(document).ready(function(){  // wait for document to be ready
     console.log(stickyStaticWidth);  // value will be rounded without getBoundingClientRect()
 
     // prepare for dynamical changing
-    var uniqueDays = document.getElementsByClassName('uniqueDays');
-    var dyClass = 'uniqueDay1'  // class to be changed
-    var offset = 2 * $('#' + dyClass).height();  // to modify the position where change happens
-    // store id/top value/content of key elements into array
+    var dyReferClass = 'uniqueDays';
+    var uniqueDays = document.getElementsByClassName(dyReferClass);
     var idArray = [];
-    var topArray = [];
     var contentArray = [];
+    // store id/content of key elements into array
     for(var i = 0; i < uniqueDays.length; i++){
         idArray.push($('#' + uniqueDays.item(i).id));
-        topArray.push($(idArray[i]).offset().top - offset);
         contentArray.push($(idArray[i]).html());
     }
+    var dyClass = 'uniqueDay1'  // class to be changed
+    var offset = $('#' + dyClass).height();  // to modify the position where change happens
 
     // scroll event
     $(window).scroll(function(){
         stickIt(stickyClass, stickyThresholdTop, stickyStaticWidth);
-        dyChange(dyClass, idArray, topArray, contentArray);
+        dyChange(dyClass, idArray, contentArray, offset);
     });
 
     // if article is clicked
     $('article').click(function(){
         // get target id
-        targetContentId = $(this).find('.entry-content').attr('id')
-        targetSummaryId = $(this).find('.entry-summary').attr('id')
+        targetContentId = $(this).find('.index-content').attr('id')
+        targetSummaryId = $(this).find('.index-summary').attr('id')
         // hide all content/show all summary but remain target unchanged --> toggle target summary/content
         // toggle: hide <--> show
-        $('.entry-content').not('#' + targetContentId).hide();
-        $('.entry-summary').not('#' + targetSummaryId).show();
-        $(this).children('.entry-summary').toggle();
-        $(this).children('.entry-content').toggle();
+        $('.index-content').not('#' + targetContentId).hide();
+        $('.index-summary').not('#' + targetSummaryId).show();
+        $(this).children('.index-summary').toggle();
+        $(this).children('.index-content').toggle();
         // scroll to article top
         scrollToTop(this, 'sticky');
     });
@@ -53,12 +52,18 @@ function stickIt(className, thresholdTop, staticWidth){
 }
 
 // to dynamically change content while scrolling
-function dyChange(className, idArray, topArray, contentArray){
+function dyChange(className, idArray, contentArray, offset){
+    var dyReferClass = document.getElementsByClassName('uniqueDays');
+    // store top value of key elements into array because top may change
+    var topArray = [];
+    for(var i = 0; i < idArray.length; i++){
+        topArray.push($(idArray[i]).offset().top - offset);
+    }
+    console.log(topArray);
     var pos = $('#' + className).offset();  // position of the component whose content will be changed
     for(var i = topArray.length - 1; i >= 0; i--){  // to determine the range and change content
-        console.log('topArray: [' + topArray + ']');
-        console.log('pos: %f in [%f, %f]', pos.top, topArray[i],  topArray[i + 1]);
         if(pos.top >= topArray[i]){
+            console.log('pos: %f in [%f, %f]', pos.top, topArray[i],  topArray[i + 1]);
             $('#' + className).html(contentArray[i]);
             break;
         }

@@ -20,13 +20,12 @@
                     <h3><strong>{{day}}</strong></h3></div></div>
             <div class="col-md-11 myLeftBorder">
                 <article id="articleId{{articleCnt}}">
-                    <div class="entry-title" id="entry-title{{articleCnt}}"><h3><strong>{{ article.title }}</strong></h3></header></div>
-                    <div class="entry-summary" id="entry-summary{{articleCnt}}"> {{ article.summary }} </div>
-                    <div class="entry-content" id="entry-content{{articleCnt}}">{{article.content}}</div></article></div></div>
+                    <div class="index-title" id="index-title{{articleCnt}}"><h3><strong><a href="{{ SITEURL }}/{{ article.url }}" rel="bookmark" title="Permalink to {{ article.title|striptags }}">{{ article.title }}</a></strong></h3></header></div>
+                    <div class="index-summary" id="index-summary{{articleCnt}}"> {{ article.summary }} </div>
+                    <div class="index-content" id="index-content{{articleCnt}}">{{article.content}}</div></article></div></div>
         <div class="row"><hr class="noMargin"></div>  
     {% endfor %}
 {% endfor %}
 <!-- post-list -->
-
 {% include 'pagination.html' %}</section>
 {% endblock content %}
