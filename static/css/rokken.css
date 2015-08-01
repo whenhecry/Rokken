@@ -1,31 +1,95 @@
-.myDate{
-    border-left: medium solid #FF8800;
-	text-align: center;
-	color: #456067;
+body{
+	background-color: #656F78;
 }
-.myLeftBorder{
-    border-left: medium solid #DDDDDD;
+hr{
+	border-color: #DDDDDD;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+header{
+	position: relative;  /*overlap with nav-cate*/
+	margin-bottom: 2px;
+}
+header a:link{
+    text-decoration: none;  /*remove underlines from links*/
+	color: #606D68;
+}
+.container{  /*to remove responsiveness*/
+	width: 647px;
+	margin: auto;
+	background-color: #FFFFFF;
+	outline-width: thick;  /*outline-* won't affect element's width|height*/
+	outline-style: solid;
+	outline-color: #593937;
+	padding-left: 2px;
+	padding-right: 2px;
+	border-top: thin solid #593937;
+}
+.noMargin{
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+.noPadding{
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+.nav-cate{
+	bottom :0px;
+	right: 0px;
+	position: absolute;  /*overlap with header*/
+}
+.nav-cate>li.active>a,
+.nav-cate>li.active>a:hover{
+	background-color: #606D68;
+}
+.index-container{
+	padding-left: 15px;
+	padding-right: 15px;
+	position: relative;  /*overlap with myDate*/
+}
+.index-date{
+	text-align: center;
+	background-color: #606D68;
+	color: #FFFFFF;
+	position: absolute;  /*overlap with index-container*/
+	top: 0px;
+	right: 0px;
+	padding-left: 15px;
+	padding-right: 15px;
+	margin-top: 2px;
+}
+.index-title{
+    border-left: thick solid #000000;
+	padding-left: 10px;
+}
+.index-content{  /*to hide content by default*/
+	display: none;
+}
+.monthBar{
+	background-color: #606D68;
+	color: #FFFFFF;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-right: 5px;
+	text-align: right;
+}
+.progress{
+	margin-left: -2px;
+	margin-bottom: 0px;
+	position: fixed;  /*fixed at the bottom*/
+	bottom: 0px;
+	width: 647px;  /*647(.container width)*/
+	height: 3px;
 }
 .testBorder{
 	border-left: thin solid #000000;
 	border-right: thin solid #000000;
 	border-top: thin solid #000000;
 	border-bottom: thin solid #000000;
-}
-.monthMargin{
-	margin-top: 5px;
-	margin-bottom: 5px;
-	margin-left: 5px;
-}
-.noMargin{
-	margin-top: 0px;
-	margin-bottom: 0px;
-}
-.uniqueDays{
-	background-color: #7E7C7E;
-	color: #FFFFFF;
-}
-/*to hide content by default*/
-.index-content{
-	display: none;
 }

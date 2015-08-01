@@ -29,27 +29,23 @@
 </head>
 
 <div class="container">
-    <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-        <body id="index" class="home">
-            <header id="banner" class="body">
-                <div class="row">
-                    <h1><a href="{{ SITEURL }}/">{{ SITENAME }} <strong>{{ SITESUBTITLE }}</strong></a></h1></div>
-                <div class="row">
-                    <ul class="nav nav-pills">
-                        {% for cat, null in categories %}
-                            <li role="presentation" {% if cat == category %}class="active"{% endif %}><a href="{{ SITEURL }}/{{ cat.url }}">{{ cat }}</a></li>
-                        {% endfor %}
-                    </ul></div>
-                <div class="row"><hr></div>
-            </header><!-- /#banner -->
-            {% block content %}
-            {% endblock %}
-            <footer id="contentinfo" class="body">
-                <address id="about" class="vcard body">
-                </address><!-- /#about -->
-            </footer><!-- /#contentinfo -->
-        </body></div>
-    <div class="col-md-2"></div></div></div>
-</html>
+    <body>
+        <header id="banner" class="body">
+            <h1><a href="{{ SITEURL }}/"><strong>{{ SITENAME }}</strong><br>{{ SITESUBTITLE }}</br></a></h1>
+            <ul class="nav nav-pills nav-cate">
+                {% for cat, null in categories %}
+                    <li role="presentation" {% if cat == category %}class="active"{% endif %}><a href="{{ SITEURL }}/{{ cat.url }}"><strong>{{ cat }}</strong></a></li>
+                {% endfor %}
+            </ul>
+        </header>
+        {% block content %}
+        {% endblock %}
+        <footer>
+            <div class="progress">
+                {% for myTag, null in tags %}
+                <div class="progress-bar {{myTag}}"><a href="{{ SITEURL }}/{{ myTag.url }}">a</a></div>
+                {% endfor %}
+            </div>
+        </footer>
+    </body>
+</div></html>
