@@ -90,9 +90,9 @@ function scrollToTop(element, offset){
 
 // to paint suitable color on tag-related stuff
 function paintTag(){
-    var colors = ['#33B5E5', '#99CC00', '#AA66CC', '#FF4444', '#FF8800'];
+    var colors = ['#33B5E5', '#FF8800', '#99CC00', '#AA66CC', '#FF4444'];
     var counter = [0, 0, 0, 0, 0];
-    var tags = ['busi', 'tech', 'campus', 'film', 'novel'];
+    var tags = ['busi', 'novel', 'tech', 'campus', 'film'];
     var tagColor = '';
     // paint title bar
     $('.index-title').each(function(){
