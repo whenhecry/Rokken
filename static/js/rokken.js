@@ -1,31 +1,30 @@
+// jQuery Method is with $()
 $(document).ready(function(){  // wait for document to be ready
-    // prepare for sticking
-    var floatingBar = '#monthBar1';  // id to be sticked and the content of which to be changed
-    var barTopThreshold = $(floatingBar).offset().top;
-    var barWidth = $(floatingBar)[0].getBoundingClientRect().width;
-    console.log('floating bar width: %f', barWidth);  // value will be rounded without getBoundingClientRect()
-    var barHeight = $(floatingBar).outerHeight();  // take height of monthBar itself into consideration
 
-    // prepare for dynamical changing
-    var monthBarElements = document.getElementsByClassName('monthBar');
-    var monthBar = [];
-    var monthBarContent = [];
-    // store id/content of key elements into array
-    for(var i = 0; i < monthBarElements.length; i++){
-        monthBar.push($('#' + monthBarElements.item(i).id));
-        monthBarContent.push($(monthBar[i]).html());
-    }
+    // initialize a floatingbar
+    var monthBar1 = document.getElementById('monthBar1');
+    var monthBarWidth = monthBar1.getBoundingClientRect().width;  // value will be rounded without getBoundingClientRect()
+    var floatingBar = monthBar1.cloneNode(true);  // clone from monthbar
+    floatingBar.id = 'floatingBar';  // set new id
+    $(floatingBar).removeClass('staticMonthBar');  // remove the class to avoid conflict during update
+    document.getElementById('banner').appendChild(floatingBar);  // append it somewhere
+    $(floatingBar).css({'position': 'fixed', 'top': 0, 'width': monthBarWidth, 'z-index': -1});  // reset its position to the top and hide it behind
+    // the first update is necessary
+    updateFloatingBar(floatingBar);
 
+    // paint color tags
     paintTag();
 
     // scroll event
     $(window).scroll(function(){
-        stick(floatingBar, barTopThreshold, barWidth);
-        dyChange(floatingBar, monthBar, monthBarContent, barHeight);
+        updateFloatingBar(floatingBar);
     });
 
+    // click event
     // if an article is clicked, toggle its status
     $('.index-container').click(function(){
+        updateFloatingBar(floatingBar);
+        var floatingBarHeight = $(floatingBar).outerHeight();
         var allContent = '.index-content';
         var allSummary = '.index-summary';
         // get target id
@@ -38,9 +37,10 @@ $(document).ready(function(){  // wait for document to be ready
         $(this).find(targetContent).toggle();
         $(this).find(targetSummary).toggle();
         // scroll to article top
-        scrollToTop(this, barHeight);
+        scrollToTop(this, floatingBarHeight);
     });
 
+    // click event
     // if part of progress bar is clicked, redirect to corresponding tag page
     $('.progress-bar').click(function(){
         reLink = $(this).children('a').attr('href');
@@ -50,34 +50,42 @@ $(document).ready(function(){  // wait for document to be ready
 
 });
 
-// to stick
-function stick(target, threshold, width){
-    var windowTop = $(window).scrollTop();
-    if (windowTop > threshold){  // to compare with threshold
-        $(target).css({'position': 'fixed', 'top': 0, 'width': width, 'z-index': 1});  // to maintain the initial and precise width
-    }else{
-        $(target).css('position', 'static');
+// to update top value/content of  staticMonthBars
+function updateMonthBarsStat(){
+    var monthBars = document.getElementsByClassName('staticMonthBar');
+    var monthBarsTop = [];
+    var monthBarsContent = [];
+    for(var i = 0; i < monthBars.length; i++){
+        monthBarsTop.push($(monthBars[i]).offset().top);
+        monthBarsContent.push($(monthBars[i]).html());
     }
+    return [monthBarsTop, monthBarsContent]
 }
 
-// to dynamically change content while scrolling
-function dyChange(floatingBar, monthBar, monthBarContent, offset){
-    // store top value of monthBars into array as top may change
-    var topArray = [];
-    for(var i = 0; i < monthBar.length; i++){
-        topArray.push($(monthBar[i]).offset().top - offset);
-    }
-    console.log('monthBar top: [%s]', topArray.toString());
+// to update the floatingBar
+function updateFloatingBar(floatingBar){
+    var floatingBarTop = $(floatingBar).offset().top;
+    var floatingBarHeight = $(floatingBar).outerHeight();
+    monthBarsStat = updateMonthBarsStat();
+    monthBarsTop = monthBarsStat[0];
+    monthBarsContent = monthBarsStat[1];
 
-    var floatingBarTop = $(floatingBar).offset().top;  // top of the component whose content will be changed
-    for(var i = topArray.length - 1; i >= 0; i--){  // to determine the range and change content
-        if(floatingBarTop >= topArray[i]){
-            console.log('pos: %f in [%f, %f]', floatingBarTop, topArray[i],  topArray[i + 1]);
-            $(floatingBar).html(monthBarContent[i]);
+    // show floatingbar when it is below monthbar1
+    if (floatingBarTop >= monthBarsTop[0]){
+        $(floatingBar).css({'z-index': 1});
+    }else{
+        $(floatingBar).css({'z-index': -1});
+    }
+
+    // change floatingbar content accordingly
+    console.log('floatingBarTop: %f, monthBarstop: [%s]', floatingBarTop, monthBarsTop.toString());
+    for(var i = monthBarsTop.length - 1; i >= 0; i--){
+        if(floatingBarTop >= monthBarsTop[i] - floatingBarHeight){
+            console.log('%f in [%f, %f]', floatingBarTop, monthBarsTop[i],  monthBarsTop[i + 1]);
+            $(floatingBar).html(monthBarsContent[i]);
             break;
         }
     }
-    return;
 }
 
 // to scroll to top of given element minus offset

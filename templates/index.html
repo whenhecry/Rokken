@@ -9,7 +9,7 @@
     {% set date = articlesByMonth[0].locale_date.split('/')%}  <!-- date of articles of the same month -->
     {% set year = date[0] %}
     {% set month = date[1] %}
-    <h4 class="monthBar {% if outerLoop.index == 1 %}sticky{% endif %}" id="monthBar{{outerLoop.index}}"><strong>{{year}}/{{month}}</strong></h4>
+    <h4 class="monthBar staticMonthBar {% if outerLoop.index == 1 %}sticky{% endif %}" id="monthBar{{outerLoop.index}}"><strong>{{year}}/{{month}}</strong></h4>
     {% for article in articlesByMonth%}
         {% set articleCnt = articleCntBase + loop.index %}  <!-- Jinja loop index start from 1 -->
         {% set date = article.locale_date.split('/') %}  <!-- date of one article -->
