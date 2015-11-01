@@ -1,5 +1,7 @@
 // jQuery Method is with $()
 $(document).ready(function(){  // wait for document to be ready
+    //~ // resize imgs
+    //~ resizeImg();
 
     // initialize a floatingbar
     var monthBar1 = document.getElementById('monthBar1');
@@ -25,17 +27,22 @@ $(document).ready(function(){  // wait for document to be ready
     $('.index-container').click(function(){
         updateFloatingBar(floatingBar);
         var floatingBarHeight = $(floatingBar).outerHeight();
-        var allContent = '.index-content';
-        var allSummary = '.index-summary';
-        // get target id
-        targetContent = '#' + $(this).find(allContent).attr('id');
-        targetSummary = '#' + $(this).find(allSummary).attr('id');
+        var contentClass = 'index-content';
+        var summaryClass = 'index-summary';
+        var allContent = document.getElementsByClassName(contentClass);
+        var allSummary = document.getElementsByClassName(summaryClass);
+
+        // get target
+        var targetContent = this.getElementsByClassName(contentClass)[0];
+        var targetSummary = this.getElementsByClassName(summaryClass)[0];
         // hide all content/show all summary but remain target unchanged --> toggle target summary/content
         // toggle: hide <--> show
         $(allContent).not(targetContent).hide();
         $(allSummary).not(targetSummary).show();
-        $(this).find(targetContent).toggle();
-        $(this).find(targetSummary).toggle();
+        $(targetContent).toggle();
+        $(targetSummary).toggle();
+        // resize img size of article
+        resizeImg(targetContent);
         // scroll to article top
         scrollToTop(this, floatingBarHeight);
     });
@@ -138,4 +145,19 @@ function paintTag(){
     $('.progress-bar').each(function(index){
         $(this).css({'width': counter[index]/articleSum*100+'%', 'background-color': colors[index]});
     });
+}
+
+// to resize width of img of given article element
+function resizeImg(articleContent){
+    // get column width of content
+    colWidth = articleContent.getBoundingClientRect().width;
+    // set img width the same as column if former is larger than latter
+    imgs = $(articleContent).find('img');
+    for(var i = 0; i < imgs.length; i++){
+        img = imgs[i];
+        imgWidth = imgs[i].getBoundingClientRect().width;
+        if (imgWidth > colWidth){
+            $(img).css('width', colWidth);
+        }
+    }
 }
