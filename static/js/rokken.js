@@ -24,7 +24,10 @@ $(document).ready(function(){  // wait for document to be ready
 
     // click event
     // if an article is clicked, toggle its status
-    $('.index-container').click(function(){
+    $('.index-container').click(function(event){
+        if($(event.target).is('a')){
+            return;
+        }
         updateFloatingBar(floatingBar);
         var floatingBarHeight = $(floatingBar).outerHeight();
         var contentClass = 'index-content';
