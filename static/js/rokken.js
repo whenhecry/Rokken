@@ -25,9 +25,18 @@ $(document).ready(function(){  // wait for document to be ready
     // click event
     // if an article is clicked, toggle its status
     $('.index-container').click(function(event){
-        if($(event.target).is('a')){
+        var target = $(event.target);
+        var targetIsHref = target.is('a');
+
+        var patt = /\blanguage/gi;  // start with language, global, case insensitive
+        var strToTest = String(target.closest('pre').attr("class"));
+        var targetIsCode = patt.test(strToTest);
+
+        // won't trigger article status toggle if target is href or code block
+        if(targetIsHref || targetIsCode){
             return;
         }
+
         updateFloatingBar(floatingBar);
         var floatingBarHeight = $(floatingBar).outerHeight();
         var contentClass = 'index-content';
@@ -82,7 +91,7 @@ function updateFloatingBar(floatingBar){
 
     // show floatingbar when it is below monthbar1
     if (floatingBarTop >= monthBarsTop[0]){
-        $(floatingBar).css({'z-index': 1});
+        $(floatingBar).css({'z-index': 10});
     }else{
         $(floatingBar).css({'z-index': -1});
     }
