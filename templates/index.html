@@ -3,6 +3,7 @@
 <section id="content">
 
 <!-- post-list -->
+<ul class="list">
 {% for articlesByMonth in articles_page.object_list | listOfMonth %}
     {% set outerLoop = loop %}
     {% set articleCntBase = articles_page.object_list | listOfMonth | sumByIndex(outerLoop.index - 1) %}
@@ -14,14 +15,17 @@
         {% set articleCnt = articleCntBase + loop.index %}  <!-- Jinja loop index start from 1 -->
         {% set date = article.locale_date.split('/') %}  <!-- date of one article -->
         {% set day = date[2] %}
+        <li>
         <div class="row noMargin index-container" id="articleId{{articleCnt}}">
             <div class="index-date" style=""><h3 class="noMargin"><strong>{{day}}</strong></h3></div>
             <div class="index-title {{article.tags[0].name}}" id="index-title{{articleCnt}}"><h3><strong>&nbsp;{{ article.title }}</strong></h3></header></div>
             <div class="index-summary" id="index-summary{{articleCnt}}"> {{ article.summary }} </div>
             <div class="index-content" id="index-content{{articleCnt}}">{{article.content}}</div></div>
         <hr>
+        </li>
     {% endfor %}
 {% endfor %}
+</ul>
 <!-- post-list -->
 {% include 'pagination.html' %}</section>
 {% endblock content %}

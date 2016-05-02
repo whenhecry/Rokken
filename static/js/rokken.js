@@ -67,6 +67,12 @@ $(document).ready(function(){  // wait for document to be ready
         window.location.href = reLink;
     });
 
+    // search
+    var options = {
+        valueNames: ['index-title', 'index-content']
+    };
+    var userList = new List('postlist', options);
+
 });
 
 // to update top value/content of  staticMonthBars
